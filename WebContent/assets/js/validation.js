@@ -6,6 +6,6 @@ function validation() {
 		alert("Datos no validos");
 	} else {
 		alert("Datos validos");
-		// form.submit();
+		form.submit();
 	}
 }
