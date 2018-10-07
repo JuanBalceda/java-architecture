@@ -1,10 +1,8 @@
-<%@page import="java.sql.ResultSet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.sql.Connection"%>
-<%@ page import="java.sql.Statement"%>
-<%@ page import="java.sql.DriverManager"%>
-<%@ page import="java.sql.SQLException"%>
+<%@page import="com.balceda.archj.app.model.Book"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,26 +11,24 @@
 <title>Java Architecture Book</title>
 <link href="https://fonts.googleapis.com/css?family=Roboto"
 	rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css" type="text/css"
-	media="screen" charset="utf-8" />
+<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 </head>
 <body>
 
 	<%
-		String isbn = request.getParameter("isbn");
-		String title = request.getParameter("title");
-		String category = request.getParameter("category");
-
-		Connection connection = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_architecture", "root", "");
-			statement = connection.createStatement();
-			String query = "select * from books";
-			resultSet = statement.executeQuery(query);
+		List<String> list = new ArrayList<>();
+		list = Book.selectAllCategories();
 	%>
+	<select name="category">
+		<option value="0">Select a category</option>
+		<%
+			for (String c : list) {
+		%>
+		<option value="<%=c.toString()%>"><%=c.toString()%></option>
+		<%
+			};
+		%>
+	</select>
 	<table>
 		<thead>
 			<tr>
@@ -43,43 +39,20 @@
 		</thead>
 		<tbody>
 			<%
-				while (resultSet.next()) {
+				List<Book> books = new ArrayList<>();
+				books = Book.selectAll();
+				for (Book b : books) {
 			%>
 			<tr>
-				<td><%=resultSet.getString("isbn")%></td>
-				<td><%=resultSet.getString("title")%></td>
-				<td><%=resultSet.getString("category")%></td>
+				<td><%=b.getIsbn()%></td>
+				<td><%=b.getTitle()%></td>
+				<td><%=b.getCategory()%></td>
 			</tr>
 			<%
-				}
-					;
+				};
 			%>
 		</tbody>
 	</table>
-	<a href="newbook.xhtml">Create new book</a>
-	<%
-		} catch (ClassNotFoundException e) {
-			System.out.println("Error loading driver: " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("Error connecting database: " + e.getMessage());
-		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					System.out.println("Error closing statement: " + e.getMessage());
-				}
-			}
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					System.out.println("Error closing connection: " + e.getMessage());
-				}
-			}
-		}
-	%>
-
-
+	<a href="newbook.jsp">Create new book</a>
 </body>
 </html>

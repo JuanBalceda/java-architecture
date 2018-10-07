@@ -3,9 +3,9 @@ function validation() {
 	let form = document.getElementById("form");
 
 	if (isbn.value == "") {
-		alert("Datos no validos");
+		alert("No valid data");
 	} else {
-		alert("Datos validos");
+		alert("Valid data");
 		form.submit();
 	}
 }
