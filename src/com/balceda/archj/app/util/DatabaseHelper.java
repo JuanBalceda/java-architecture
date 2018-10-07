@@ -54,7 +54,7 @@ public class DatabaseHelper<T> {
 		Statement statement = null;
 		ResultSet resultSet = null;
 
-		List<T> list = new ArrayList<>();
+		List<T> list = new ArrayList<T>();
 
 		try {
 			Class.forName(DRIVER);
@@ -64,14 +64,11 @@ public class DatabaseHelper<T> {
 			while (resultSet.next()) {
 				T object = (T) Class.forName(c.getName()).newInstance();
 				Method[] methods = object.getClass().getDeclaredMethods();
-				for (Method m : methods) {
-					System.out.println(m.getName());
-				}
+
 				for (int i = 0; i < methods.length; i++) {
 					if (methods[i].getName().startsWith("set")) {
-						System.out.println(methods[i].getName());
-						methods[i].invoke(object, resultSet.getString(methods[i].getName().substring(3)));
-						System.out.println(methods[i].getName().substring(3));
+						methods[i].invoke(object, 
+								resultSet.getString(methods[i].getName().substring(3)));
 					}
 					if (object.getClass().getName().equals("java.lang.String")) {
 						object = (T) resultSet.getString(1);

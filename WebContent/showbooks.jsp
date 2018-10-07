@@ -19,6 +19,7 @@
 		List<String> list = new ArrayList<>();
 		list = Book.selectAllCategories();
 	%>
+<form action="showbooks.jsp">
 	<select name="category">
 		<option value="0">Select a category</option>
 		<%
@@ -29,24 +30,32 @@
 			};
 		%>
 	</select>
+	<input type="submit" value="Filter">
+</form>
 	<table>
 		<thead>
 			<tr>
 				<td>ISBN</td>
 				<td>Title</td>
 				<td>Category</td>
+				<td>Options</td>
 			</tr>
 		</thead>
 		<tbody>
 			<%
 				List<Book> books = new ArrayList<>();
-				books = Book.selectAll();
+				if(request.getParameter("category")==null || request.getParameter("category").equals("0")){
+					books = Book.selectAll();
+				}else{
+					books = Book.selectByCategory(request.getParameter("category"));
+				}
 				for (Book b : books) {
 			%>
 			<tr>
 				<td><%=b.getIsbn()%></td>
 				<td><%=b.getTitle()%></td>
 				<td><%=b.getCategory()%></td>
+				<td><a href="editbook.jsp?isbn=<%=b.getIsbn()%>">Edit</a> <a href="deletebook.jsp?isbn=<%=b.getIsbn()%>">Delete</a></td>
 			</tr>
 			<%
 				};
