@@ -1,3 +1,4 @@
+<%@page import="com.balceda.archj.app.dao.exceptions.DAOException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -15,8 +16,9 @@
 </head>
 <body>
 	<%
-		Book book = Book.selectById(request.getParameter("isbn"));
+		Book book = new Book();
 		List<String> list = new ArrayList<>();
+		book = Book.selectById(request.getParameter("isbn"));
 		list = Book.selectAllCategories();
 	%>
 	<form id="form" action="updatebook.jsp">

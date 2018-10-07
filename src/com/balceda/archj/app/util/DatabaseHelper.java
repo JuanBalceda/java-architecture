@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.balceda.archj.app.dao.exceptions.DAOException;
+
 public class DatabaseHelper<T> {
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost:3306/java_architecture";
@@ -27,14 +29,17 @@ public class DatabaseHelper<T> {
 			rows = statement.executeUpdate(query);
 		} catch (ClassNotFoundException e) {
 			System.out.println("Error loading driver: " + e.getMessage());
+			throw new DAOException("JDBC Driver not found", e);
 		} catch (SQLException e) {
 			System.out.println("Error connecting database: " + e.getMessage());
+			throw new DAOException("SQL Sintax error", e);
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
 					System.out.println("Error closing statement: " + e.getMessage());
+					throw new DAOException("Error closing database statement", e);
 				}
 			}
 			if (connection != null) {
@@ -42,6 +47,7 @@ public class DatabaseHelper<T> {
 					connection.close();
 				} catch (SQLException e) {
 					System.out.println("Error closing connection: " + e.getMessage());
+					throw new DAOException("Error closing database connection", e);
 				}
 			}
 		}
@@ -67,8 +73,7 @@ public class DatabaseHelper<T> {
 
 				for (int i = 0; i < methods.length; i++) {
 					if (methods[i].getName().startsWith("set")) {
-						methods[i].invoke(object, 
-								resultSet.getString(methods[i].getName().substring(3)));
+						methods[i].invoke(object, resultSet.getString(methods[i].getName().substring(3)));
 					}
 					if (object.getClass().getName().equals("java.lang.String")) {
 						object = (T) resultSet.getString(1);
@@ -78,10 +83,13 @@ public class DatabaseHelper<T> {
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("Error loading driver: " + e.getMessage());
+			throw new DAOException("JDBC Driver not found", e);
 		} catch (SQLException e) {
 			System.out.println("Error connecting database: " + e.getMessage());
+			throw new DAOException("SQL Sintax error", e);
 		} catch (Exception e) {
 			System.out.println("Error casting class: " + e.getMessage());
+			throw new DAOException("Casting error", e);
 		}
 		return list;
 	}

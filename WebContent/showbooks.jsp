@@ -1,3 +1,4 @@
+<%@page import="com.balceda.archj.app.dao.exceptions.DAOException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="com.balceda.archj.app.model.Book"%>
@@ -19,19 +20,19 @@
 		List<String> list = new ArrayList<>();
 		list = Book.selectAllCategories();
 	%>
-<form action="showbooks.jsp">
-	<select name="category">
-		<option value="0">Select a category</option>
-		<%
-			for (String c : list) {
-		%>
-		<option value="<%=c.toString()%>"><%=c.toString()%></option>
-		<%
-			};
-		%>
-	</select>
-	<input type="submit" value="Filter">
-</form>
+	<form action="showbooks.jsp">
+		<select name="category">
+			<option value="0">Select a category</option>
+			<%
+				for (String c : list) {
+			%>
+			<option value="<%=c.toString()%>"><%=c.toString()%></option>
+			<%
+				}
+				;
+			%>
+		</select> <input type="submit" value="Filter">
+	</form>
 	<table>
 		<thead>
 			<tr>
@@ -44,9 +45,9 @@
 		<tbody>
 			<%
 				List<Book> books = new ArrayList<>();
-				if(request.getParameter("category")==null || request.getParameter("category").equals("0")){
+				if (request.getParameter("category") == null || request.getParameter("category").equals("0")) {
 					books = Book.selectAll();
-				}else{
+				} else {
 					books = Book.selectByCategory(request.getParameter("category"));
 				}
 				for (Book b : books) {
@@ -55,10 +56,12 @@
 				<td><%=b.getIsbn()%></td>
 				<td><%=b.getTitle()%></td>
 				<td><%=b.getCategory()%></td>
-				<td><a href="editbook.jsp?isbn=<%=b.getIsbn()%>">Edit</a> <a href="deletebook.jsp?isbn=<%=b.getIsbn()%>">Delete</a></td>
+				<td><a href="editbook.jsp?isbn=<%=b.getIsbn()%>">Edit</a> <a
+					href="deletebook.jsp?isbn=<%=b.getIsbn()%>">Delete</a></td>
 			</tr>
 			<%
-				};
+				}
+				;
 			%>
 		</tbody>
 	</table>
