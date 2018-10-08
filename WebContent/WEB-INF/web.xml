@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
-  <display-name>ArquitecturaJava</display-name>
-  <error-page>
-  <exception-type>java.lang.RuntimeException</exception-type>
-  <location>/error.jsp</location>
-  </error-page>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>ArquitecturaJava</display-name>
+	<error-page>
+		<exception-type>java.lang.RuntimeException</exception-type>
+		<location>/error.jsp</location>
+	</error-page>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<description></description>
+		<display-name>BookController</display-name>
+		<servlet-name>BookController</servlet-name>
+		<servlet-class>com.balceda.archj.app.controller.BookController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BookController</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
 </web-app>

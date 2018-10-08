@@ -16,12 +16,10 @@
 </head>
 <body>
 	<%
-		Book book = new Book();
-		List<String> list = new ArrayList<>();
-		book = Book.selectById(request.getParameter("isbn"));
-		list = Book.selectAllCategories();
+		Book book = (Book) request.getAttribute("book");
+		List<String> list = (List<String>) request.getAttribute("categories");
 	%>
-	<form id="form" action="updatebook.jsp">
+	<form id="form" action="updatebook.do">
 		<fieldset>
 			<legend>Edit book:</legend>
 			<p>
@@ -56,7 +54,7 @@
 		</fieldset>
 	</form>
 	<p>
-		<a href="showbooks.jsp">Show Books</a>
+		<a href="showbooks.do">Show Books</a>
 	</p>
 	<script src="assets/js/validation.js"></script>
 </body>

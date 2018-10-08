@@ -17,9 +17,9 @@
 <body>
 	<%
 		List<String> list = new ArrayList<>();
-		list = Book.selectAllCategories();
+		list = (List<String>) request.getAttribute("categories");
 	%>
-	<form id="form" action="insertbook.jsp">
+	<form id="form" action="insertbook.do" method="get">
 		<fieldset>
 			<legend>Create new book:</legend>
 			<p>
@@ -38,8 +38,7 @@
 					%>
 					<option value="<%=c.toString()%>"><%=c.toString()%></option>
 					<%
-						}
-						;
+						};
 					%>
 				</select>
 			</p>
@@ -49,7 +48,7 @@
 		</fieldset>
 	</form>
 	<p>
-		<a href="showbooks.jsp">Show Books</a>
+		<a href="showbooks.do">Show Books</a>
 	</p>
 	<script src="assets/js/validation.js"></script>
 </body>

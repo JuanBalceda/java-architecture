@@ -18,18 +18,24 @@
 
 	<%
 		List<String> list = new ArrayList<>();
-		list = Book.selectAllCategories();
+
+		list = (List<String>) request.getAttribute("categories");
 	%>
-	<form action="showbooks.jsp">
+	<form action="filter.do">
 		<select name="category">
 			<option value="0">Select a category</option>
 			<%
 				for (String c : list) {
+					if (c.equals(request.getParameter("category"))) {
+			%>
+			<option value="<%=c.toString()%>" selected><%=c.toString()%></option>
+			<%
+					} else {
 			%>
 			<option value="<%=c.toString()%>"><%=c.toString()%></option>
 			<%
-				}
-				;
+					}
+				};
 			%>
 		</select> <input type="submit" value="Filter">
 	</form>
@@ -45,26 +51,22 @@
 		<tbody>
 			<%
 				List<Book> books = new ArrayList<>();
-				if (request.getParameter("category") == null || request.getParameter("category").equals("0")) {
-					books = Book.selectAll();
-				} else {
-					books = Book.selectByCategory(request.getParameter("category"));
-				}
+				books = (List<Book>) request.getAttribute("books");
 				for (Book b : books) {
 			%>
 			<tr>
 				<td><%=b.getIsbn()%></td>
 				<td><%=b.getTitle()%></td>
 				<td><%=b.getCategory()%></td>
-				<td><a href="editbook.jsp?isbn=<%=b.getIsbn()%>">Edit</a> <a
-					href="deletebook.jsp?isbn=<%=b.getIsbn()%>">Delete</a></td>
+				<td>
+				<a href="editbook.do?isbn=<%=b.getIsbn()%>">Edit</a>
+				<a href="deletebook.do?isbn=<%=b.getIsbn()%>">Delete</a></td>
 			</tr>
 			<%
-				}
-				;
+				};
 			%>
 		</tbody>
 	</table>
-	<a href="newbook.jsp">Create new book</a>
+	<a href="newbook.do">Create new book</a>
 </body>
 </html>
