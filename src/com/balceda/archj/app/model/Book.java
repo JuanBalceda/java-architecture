@@ -2,7 +2,6 @@ package com.balceda.archj.app.model;
 
 import java.util.List;
 
-import com.balceda.archj.app.dao.exceptions.DAOException;
 import com.balceda.archj.app.util.DatabaseHelper;
 
 public class Book {

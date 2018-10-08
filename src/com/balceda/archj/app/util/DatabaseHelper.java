@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.balceda.archj.app.dao.exceptions.DAOException;
 
 public class DatabaseHelper<T> {
@@ -16,6 +18,8 @@ public class DatabaseHelper<T> {
 	private static final String URL = "jdbc:mysql://localhost:3306/java_architecture";
 	private static final String USER = "root";
 	private static final String PASS = "";
+
+	private static final Logger LOG = Logger.getLogger(DatabaseHelper.class.getPackage().getName());
 
 	public int update(String query) {
 		Connection connection = null;
@@ -28,10 +32,12 @@ public class DatabaseHelper<T> {
 			statement = connection.createStatement();
 			rows = statement.executeUpdate(query);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Error loading driver: " + e.getMessage());
+			// System.out.println("Error loading driver: " + e.getMessage());
+			LOG.error("JDBC Driver not found: " + e.getMessage());
 			throw new DAOException("JDBC Driver not found", e);
 		} catch (SQLException e) {
-			System.out.println("Error connecting database: " + e.getMessage());
+			// System.out.println("Error connecting database: " + e.getMessage());
+			LOG.error("SQL Sintax error: " + e.getMessage());
 			throw new DAOException("SQL Sintax error", e);
 		} finally {
 			if (statement != null) {
@@ -82,10 +88,12 @@ public class DatabaseHelper<T> {
 				list.add(object);
 			}
 		} catch (ClassNotFoundException e) {
-			System.out.println("Error loading driver: " + e.getMessage());
+			// System.out.println("Error loading driver: " + e.getMessage());
+			LOG.error("JDBC Driver not found: " + e.getMessage());
 			throw new DAOException("JDBC Driver not found", e);
 		} catch (SQLException e) {
-			System.out.println("Error connecting database: " + e.getMessage());
+			// System.out.println("Error connecting database: " + e.getMessage());
+			LOG.error("SQL Sintax error: " + e.getMessage());
 			throw new DAOException("SQL Sintax error", e);
 		} catch (Exception e) {
 			System.out.println("Error casting class: " + e.getMessage());
