@@ -61,6 +61,7 @@ public class DatabaseHelper<T> {
 		return rows;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public List<T> select(String query, Class c) {
 		Connection connection = null;
 		Statement statement = null;

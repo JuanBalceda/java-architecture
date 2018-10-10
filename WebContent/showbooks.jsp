@@ -1,10 +1,6 @@
-<%@page import="com.balceda.archj.app.dao.exceptions.DAOException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.balceda.archj.app.model.Book"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,28 +11,12 @@
 <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 </head>
 <body>
-
-	<%
-		List<String> list = new ArrayList<>();
-
-		list = (List<String>) request.getAttribute("categories");
-	%>
 	<form action="filter.do">
 		<select name="category">
 			<option value="0">Select a category</option>
-			<%
-				for (String c : list) {
-					if (c.equals(request.getParameter("category"))) {
-			%>
-			<option value="<%=c.toString()%>" selected><%=c.toString()%></option>
-			<%
-					} else {
-			%>
-			<option value="<%=c.toString()%>"><%=c.toString()%></option>
-			<%
-					}
-				};
-			%>
+			<c:forEach var="category" items="${categories}">
+				<option value="${category}">${category}</option>
+			</c:forEach>
 		</select> <input type="submit" value="Filter">
 	</form>
 	<table>
@@ -49,22 +29,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			<%
-				List<Book> books = new ArrayList<>();
-				books = (List<Book>) request.getAttribute("books");
-				for (Book b : books) {
-			%>
-			<tr>
-				<td><%=b.getIsbn()%></td>
-				<td><%=b.getTitle()%></td>
-				<td><%=b.getCategory()%></td>
-				<td>
-				<a href="editbook.do?isbn=<%=b.getIsbn()%>">Edit</a>
-				<a href="deletebook.do?isbn=<%=b.getIsbn()%>">Delete</a></td>
-			</tr>
-			<%
-				};
-			%>
+			<c:forEach var="book" items="${books}">
+				<tr>
+					<td>${book.isbn}</td>
+					<td>${book.title}</td>
+					<td>${book.category}</td>
+					<td><a href="editbook.do?isbn=${book.isbn}">Edit</a> <a
+						href="deletebook.do?isbn=${book.isbn}">Delete</a></td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	<a href="newbook.do">Create new book</a>
