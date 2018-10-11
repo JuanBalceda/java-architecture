@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 </head>
 <body>
-	<form id="form" action="updatebook.do">
+	<form id="form" action="Updatebook.do">
 		<fieldset>
 			<legend>Edit book:</legend>
 			<p>
@@ -37,7 +37,7 @@
 		</fieldset>
 	</form>
 	<p>
-		<a href="showbooks.do">Show Books</a>
+		<a href="Showbooks.do">Show Books</a>
 	</p>
 	<script src="assets/js/validation.js"></script>
 </body>

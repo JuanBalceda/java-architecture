@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 </head>
 <body>
-	<form action="filter.do">
+	<form action="Filterbycategory.do">
 		<select name="category">
 			<option value="0">Select a category</option>
 			<c:forEach var="category" items="${categories}">
@@ -34,12 +34,12 @@
 					<td>${book.isbn}</td>
 					<td>${book.title}</td>
 					<td>${book.category}</td>
-					<td><a href="editbook.do?isbn=${book.isbn}">Edit</a> <a
-						href="deletebook.do?isbn=${book.isbn}">Delete</a></td>
+					<td><a href="Editbook.do?isbn=${book.isbn}">Edit</a> <a
+						href="Deletebook.do?isbn=${book.isbn}">Delete</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<a href="newbook.do">Create new book</a>
+	<a href="Newbook.do">Create new book</a>
 </body>
 </html>
