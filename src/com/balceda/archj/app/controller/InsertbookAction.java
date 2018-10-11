@@ -15,7 +15,7 @@ public class InsertbookAction extends Action {
 		Book book = new Book(isbn, title, category);
 		book.insert();
 
-		return "showbooks.do";
+		return "Showbooks.do";
 	}
 
 }

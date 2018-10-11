@@ -2,10 +2,21 @@ package com.balceda.archj.app.model;
 
 import java.util.List;
 
-import com.balceda.archj.app.util.DatabaseHelper;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.balceda.archj.app.util.HibernateHelper;
+
+@Entity
+@Table(name = "books")
 public class Book {
 
+	@Id
 	private String isbn;
 	private String title;
 	private String category;
@@ -45,51 +56,61 @@ public class Book {
 	}
 
 	public void insert() {
-		String sqlQuery = "insert into books (isbn, title, category) values('" + this.isbn + "', '" + this.title
-				+ "', '" + this.category + "')";
-		DatabaseHelper<Book> db = new DatabaseHelper<Book>();
-		db.update(sqlQuery);
+		SessionFactory sessionFactory = HibernateHelper.getSession();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(this);
+		session.getTransaction().commit();
 	}
 
 	public static List<Book> selectAll() {
-		String sqlQuery = "select * from books";
-		DatabaseHelper<Book> db = new DatabaseHelper<Book>();
-		List<Book> list = db.select(sqlQuery, Book.class);
+		SessionFactory sessionFactory = HibernateHelper.getSession();
+		Session session = sessionFactory.openSession();
+		List<Book> list = session.createQuery("from Book book").list();
+		session.close();
 		return list;
 	}
 
 	public static List<String> selectAllCategories() {
-		String sqlQuery = "select distinct(category) from books";
-		DatabaseHelper<String> db = new DatabaseHelper<String>();
-		List<String> list = db.select(sqlQuery, String.class);
+		SessionFactory sessionFactory = HibernateHelper.getSession();
+		Session session = sessionFactory.openSession();
+		List<String> list = session.createQuery("select distinct book.category from Book book").list();
+		session.close();
 		return list;
 	}
 
 	public static Book selectById(String isbn) {
-		String sqlQuery = "select * from books where isbn='" + isbn + "'";
-		DatabaseHelper<Book> db = new DatabaseHelper<Book>();
-		List<Book> list = db.select(sqlQuery, Book.class);
-		return list.get(0);
+		SessionFactory sessionFactory = HibernateHelper.getSession();
+		Session session = sessionFactory.openSession();
+		Book book = (Book) session.get(Book.class, isbn);
+		session.close();
+		return book;
 	}
 
 	public static List<Book> selectByCategory(String category) {
-		String sqlQuery = "select * from books where category='" + category + "'";
-		DatabaseHelper<Book> db = new DatabaseHelper<Book>();
-		List<Book> list = db.select(sqlQuery, Book.class);
+		SessionFactory sessionFactory = HibernateHelper.getSession();
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery("from Book book where book.category=:category");
+		query.setString("category", category);
+		List<Book> list = query.list();
+		session.close();
 		return list;
 	}
 
 	public void update() {
-		String sqlQuery = "update books set title='" + this.title + "', category='" + this.category + "' where isbn='"
-				+ this.isbn + "'";
-		DatabaseHelper<Book> db = new DatabaseHelper<Book>();
-		db.update(sqlQuery);
+		SessionFactory sessionFactory = HibernateHelper.getSession();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.saveOrUpdate(this);
+		session.getTransaction().commit();
 	}
 
 	public void delete() {
-		String sqlQuery = "delete from books where isbn='" + this.isbn + "'";
-		DatabaseHelper<Book> db = new DatabaseHelper<Book>();
-		db.update(sqlQuery);
+		SessionFactory sessionFactory = HibernateHelper.getSession();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(this);
+		session.getTransaction().commit();
 	}
 
 }

@@ -14,7 +14,7 @@ public class DeletebookAction extends Action {
 		book.setIsbn(isbn);
 		book.delete();
 
-		return "showbooks.do";
+		return "Showbooks.do";
 	}
 
 }

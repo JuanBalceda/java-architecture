@@ -14,7 +14,7 @@ public class UpdatebookAction extends Action {
 		String category = request.getParameter("category");
 		Book libro = new Book(isbn, title, category);
 		libro.update();
-		return "showbooks.do";
+		return "Showbooks.do";
 	}
 
 }
