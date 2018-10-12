@@ -3,16 +3,17 @@ package com.balceda.archj.app.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PersistenceException;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import com.balceda.archj.app.util.HibernateHelper;
+import com.balceda.archj.app.util.JPAHelper;
 
 @Entity
 @Table(name = "books")
@@ -21,9 +22,9 @@ public class Book {
 	@Id
 	private String isbn;
 	private String title;
-	
+
 	@ManyToOne
-	@JoinColumn(name="category")
+	@JoinColumn(name = "category")
 	private Category category;
 
 	public Book() {
@@ -61,53 +62,96 @@ public class Book {
 	}
 
 	public void insert() {
-		SessionFactory sessionFactory = HibernateHelper.getSession();
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		session.save(this);
-		session.getTransaction().commit();
+		EntityManagerFactory emf = JPAHelper.getJPAFactory();
+		EntityManager manager = emf.createEntityManager();
+		EntityTransaction transaction = null;
+		try {
+			transaction = manager.getTransaction();
+			transaction.begin();
+			manager.persist(this);
+			transaction.commit();
+		} catch (PersistenceException e) {
+			manager.getTransaction().rollback();
+			throw e;
+		} finally {
+			manager.close();
+		}
 	}
 
 	public static List<Book> selectAll() {
-		SessionFactory sessionFactory = HibernateHelper.getSession();
-		Session session = sessionFactory.openSession();
-		List<Book> list = session.createQuery("from Book book right join fetch book.category").list();
-		session.close();
+		EntityManagerFactory emf = JPAHelper.getJPAFactory();
+		EntityManager manager = emf.createEntityManager();
+		TypedQuery<Book> query = manager.createQuery("Select b from Book b join fetch b.category", Book.class);
+		List<Book> list = null;
+		try {
+			list = query.getResultList();
+		} finally {
+			manager.close();
+		}
 		return list;
 	}
 
 	public static Book selectById(String isbn) {
-		SessionFactory sessionFactory = HibernateHelper.getSession();
-		Session session = sessionFactory.openSession();
-		Book book = (Book) session.get(Book.class, isbn);
-		session.close();
+		EntityManagerFactory emf = JPAHelper.getJPAFactory();
+		EntityManager manager = emf.createEntityManager();
+		TypedQuery<Book> query = manager.createQuery("Select b from Book b join fetch b.category where b.isbn=?1",
+				Book.class);
+		query.setParameter(1, isbn);
+		Book book = null;
+		try {
+			book = query.getSingleResult();
+		} finally {
+			manager.close();
+		}
 		return book;
 	}
 
-	public static List<Book> selectByCategory(String category) {
-		SessionFactory sessionFactory = HibernateHelper.getSession();
-		Session session = sessionFactory.openSession();
-		Query query = session.createQuery("from Book book where book.category=:category");
-		query.setString("category", category);
-		List<Book> list = query.list();
-		session.close();
+	public static List<Book> selectByCategory(Category category) {
+		EntityManagerFactory emf = JPAHelper.getJPAFactory();
+		EntityManager manager = emf.createEntityManager();
+		TypedQuery<Book> query = manager.createQuery("Select b from Book b where b.category=?1", Book.class);
+		query.setParameter(1, category);
+		List<Book> list = null;
+		try {
+			list = query.getResultList();
+		} finally {
+			manager.close();
+		}
 		return list;
 	}
 
 	public void update() {
-		SessionFactory sessionFactory = HibernateHelper.getSession();
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		session.saveOrUpdate(this);
-		session.getTransaction().commit();
+		EntityManagerFactory emf = JPAHelper.getJPAFactory();
+		EntityManager manager = emf.createEntityManager();
+		EntityTransaction transaction = null;
+		try {
+			transaction = manager.getTransaction();
+			transaction.begin();
+			manager.merge(this);
+			transaction.commit();
+		} catch (PersistenceException e) {
+			manager.getTransaction().rollback();
+			throw e;
+		} finally {
+			manager.close();
+		}
 	}
 
 	public void delete() {
-		SessionFactory sessionFactory = HibernateHelper.getSession();
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		session.delete(this);
-		session.getTransaction().commit();
+		EntityManagerFactory emf = JPAHelper.getJPAFactory();
+		EntityManager manager = emf.createEntityManager();
+		EntityTransaction transaction = null;
+		try {
+			transaction = manager.getTransaction();
+			transaction.begin();
+			manager.remove(manager.merge(this));
+			transaction.commit();
+		} catch (PersistenceException e) {
+			manager.getTransaction().rollback();
+			throw e;
+		} finally {
+			manager.close();
+		}
 	}
 
 }

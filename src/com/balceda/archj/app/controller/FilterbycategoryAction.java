@@ -18,7 +18,8 @@ public class FilterbycategoryAction extends Action {
 		if (request.getParameter("category") == null || request.getParameter("category").equals("0")) {
 			books = Book.selectAll();
 		} else {
-			books = Book.selectByCategory(request.getParameter("category"));
+			Category c = Category.selectById(request.getParameter("category"));
+			books = Book.selectByCategory(c);
 		}
 		request.setAttribute("categories", categories);
 		request.setAttribute("books", books);
