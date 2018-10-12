@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.Query;
@@ -19,12 +21,15 @@ public class Book {
 	@Id
 	private String isbn;
 	private String title;
-	private String category;
+	
+	@ManyToOne
+	@JoinColumn(name="category")
+	private Category category;
 
 	public Book() {
 	}
 
-	public Book(String isbn, String title, String category) {
+	public Book(String isbn, String title, Category category) {
 		super();
 		this.isbn = isbn;
 		this.title = title;
@@ -47,11 +52,11 @@ public class Book {
 		this.title = title;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
@@ -66,15 +71,7 @@ public class Book {
 	public static List<Book> selectAll() {
 		SessionFactory sessionFactory = HibernateHelper.getSession();
 		Session session = sessionFactory.openSession();
-		List<Book> list = session.createQuery("from Book book").list();
-		session.close();
-		return list;
-	}
-
-	public static List<String> selectAllCategories() {
-		SessionFactory sessionFactory = HibernateHelper.getSession();
-		Session session = sessionFactory.openSession();
-		List<String> list = session.createQuery("select distinct book.category from Book book").list();
+		List<Book> list = session.createQuery("from Book book right join fetch book.category").list();
 		session.close();
 		return list;
 	}

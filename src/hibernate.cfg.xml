@@ -14,5 +14,6 @@ hibernate-configuration PUBLIC
 		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<property name="show_sql">true</property>
 		<mapping class="com.balceda.archj.app.model.Book" />
+		<mapping class="com.balceda.archj.app.model.Category" />
 	</session-factory>
 </hibernate-configuration>

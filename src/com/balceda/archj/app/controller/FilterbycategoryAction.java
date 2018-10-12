@@ -6,13 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.balceda.archj.app.model.Book;
+import com.balceda.archj.app.model.Category;
 
 public class FilterbycategoryAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		List<Book> books = null;
-		List<String> categories = Book.selectAllCategories();
+		List<Category> categories = Category.selectAll();
 
 		if (request.getParameter("category") == null || request.getParameter("category").equals("0")) {
 			books = Book.selectAll();

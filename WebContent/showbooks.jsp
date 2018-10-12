@@ -15,7 +15,7 @@
 		<select name="category">
 			<option value="0">Select a category</option>
 			<c:forEach var="category" items="${categories}">
-				<option value="${category}">${category}</option>
+				<option value="${category.id}">${category.description}</option>
 			</c:forEach>
 		</select> <input type="submit" value="Filter">
 	</form>
@@ -33,7 +33,7 @@
 				<tr>
 					<td>${book.isbn}</td>
 					<td>${book.title}</td>
-					<td>${book.category}</td>
+					<td>${book.category.description}</td>
 					<td><a href="Editbook.do?isbn=${book.isbn}">Edit</a> <a
 						href="Deletebook.do?isbn=${book.isbn}">Delete</a></td>
 				</tr>
