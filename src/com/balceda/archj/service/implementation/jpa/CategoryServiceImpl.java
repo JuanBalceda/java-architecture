@@ -2,8 +2,6 @@ package com.balceda.archj.service.implementation.jpa;
 
 import java.util.List;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import com.balceda.archj.dao.interfaces.CategoryDAO;
 import com.balceda.archj.model.Category;
 import com.balceda.archj.service.exception.ExceptionService;
@@ -14,8 +12,6 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryDAO categoryDAO;
 
 	public CategoryServiceImpl() {
-		ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-		categoryDAO = (CategoryDAO) factory.getBean("categoryDAO");
 	}
 
 	@Override
@@ -41,6 +37,16 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void delete(Category t) throws ExceptionService {
 		categoryDAO.delete(t);
+	}
+	
+	@Override
+	public CategoryDAO getCategoryDAO() {
+		return categoryDAO;
+	}
+	
+	@Override
+	public void setCategoryDAO(CategoryDAO categoryDAO) {
+		this.categoryDAO = categoryDAO;
 	}
 
 }

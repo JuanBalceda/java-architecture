@@ -10,13 +10,13 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
-import com.balceda.archj.dao.JPAHelper;
 import com.balceda.archj.dao.exception.ExceptionDAO;
 import com.balceda.archj.dao.interfaces.GenericDAO;
 
 public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, Id> {
 
 	private Class<T> persistence;
+	private EntityManagerFactory emf;
 	
 	public GenericDAOImpl() {
 		this.persistence = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -24,8 +24,7 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 
 	@Override
 	public void insert(T t) throws ExceptionDAO {
-		EntityManagerFactory emf = JPAHelper.getJPAFactory();
-		EntityManager manager = emf.createEntityManager();
+		EntityManager manager = getEmf().createEntityManager();
 		EntityTransaction transaction = null;
 		try {
 			transaction = manager.getTransaction();
@@ -42,8 +41,8 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 
 	@Override
 	public List<T> selectAll() throws ExceptionDAO {
-		EntityManagerFactory emf = JPAHelper.getJPAFactory();
-		EntityManager manager = emf.createEntityManager();
+		EntityManager manager = getEmf().createEntityManager();
+
 		TypedQuery<T> query = 
 				manager.createQuery("Select o from "+persistence.getSimpleName()+" o", persistence);
 		List<T> list = null;
@@ -57,8 +56,8 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 
 	@Override
 	public T selectById(Id id) throws ExceptionDAO {
-		EntityManagerFactory emf = JPAHelper.getJPAFactory();
-		EntityManager manager = emf.createEntityManager();
+		EntityManager manager = getEmf().createEntityManager();
+
 		T object = null;
 		try {
 			object = (T) manager.find(persistence, id);
@@ -70,8 +69,8 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 
 	@Override
 	public void update(T t) throws ExceptionDAO {
-		EntityManagerFactory emf = JPAHelper.getJPAFactory();
-		EntityManager manager = emf.createEntityManager();
+		EntityManager manager = getEmf().createEntityManager();
+
 		EntityTransaction transaction = null;
 		try {
 			transaction = manager.getTransaction();
@@ -88,8 +87,8 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 
 	@Override
 	public void delete(T t) throws ExceptionDAO {
-		EntityManagerFactory emf = JPAHelper.getJPAFactory();
-		EntityManager manager = emf.createEntityManager();
+		EntityManager manager = getEmf().createEntityManager();
+
 		EntityTransaction transaction = null;
 		try {
 			transaction = manager.getTransaction();
@@ -102,6 +101,14 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 		} finally {
 			manager.close();
 		}		
+	}
+
+	public EntityManagerFactory getEmf() {
+		return emf;
+	}
+
+	public void setEmf(EntityManagerFactory emf) {
+		this.emf = emf;
 	}
 
 }

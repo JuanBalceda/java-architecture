@@ -2,8 +2,6 @@ package com.balceda.archj.service.implementation.jpa;
 
 import java.util.List;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import com.balceda.archj.dao.interfaces.BookDAO;
 import com.balceda.archj.model.Book;
 import com.balceda.archj.model.Category;
@@ -13,11 +11,8 @@ import com.balceda.archj.service.interfaces.BookService;
 public class BookServiceImpl implements BookService {
 
 	private BookDAO bookDAO;
-	
+
 	public BookServiceImpl() {
-		ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-		bookDAO = (BookDAO) factory.getBean("bookDAO");
-		
 	}
 
 	@Override
@@ -48,6 +43,16 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> selectByCategory(Category category) throws ExceptionService {
 		return bookDAO.selectByCategory(category);
+	}
+
+	@Override
+	public BookDAO getBookDAO() {
+		return bookDAO;
+	}
+
+	@Override
+	public void setBookDAO(BookDAO bookDAO) {
+		this.bookDAO = bookDAO;
 	}
 
 }

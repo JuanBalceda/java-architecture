@@ -3,8 +3,47 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/java_architecture" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+
+	<bean id="emf"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="ArchJ" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform"
+					value="org.hibernate.dialect.MySQL5Dialect" />
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+	</bean>
+
 	<bean id="bookDAO"
-		class="com.balceda.archj.dao.implementation.jpa.BookDAOImpl" />
+		class="com.balceda.archj.dao.implementation.jpa.BookDAOImpl">
+		<property name="emf" ref="emf" />
+	</bean>
+
 	<bean id="categoryDAO"
-		class="com.balceda.archj.dao.implementation.jpa.CategoryDAOImpl" />
+		class="com.balceda.archj.dao.implementation.jpa.CategoryDAOImpl">
+		<property name="emf" ref="emf" />
+	</bean>
+
+	<bean id="bookService"
+		class="com.balceda.archj.service.implementation.jpa.BookServiceImpl">
+		<property name="bookDAO" ref="bookDAO"></property>
+	</bean>
+
+	<bean id="categoryService"
+		class="com.balceda.archj.service.implementation.jpa.CategoryServiceImpl">
+		<property name="categoryDAO" ref="categoryDAO"></property>
+	</bean>
 </beans>

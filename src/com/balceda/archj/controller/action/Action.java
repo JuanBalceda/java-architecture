@@ -3,6 +3,9 @@ package com.balceda.archj.controller.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 public abstract class Action {
 
 	public abstract String execute(HttpServletRequest request, HttpServletResponse response);
@@ -25,5 +28,11 @@ public abstract class Action {
 	private static String getPackage() {
 
 		return Action.class.getPackage().getName();
+	}
+
+	public Object getBean(String bean, HttpServletRequest request) {
+		WebApplicationContext factory = WebApplicationContextUtils
+				.getRequiredWebApplicationContext(request.getSession().getServletContext());
+		return factory.getBean(bean);
 	}
 }
