@@ -13,3 +13,6 @@
 * Chapter 11 - Hibernate & Relationships
 * Chapter 12 - Java Persistence API
 * Chapter 13 - ISP & DAO
+* Chapter 14 - IOC & Abstract Factory
+* Chapter 15 - DRY & Service
+* Chapter 16 - IOC & Spring Framework
