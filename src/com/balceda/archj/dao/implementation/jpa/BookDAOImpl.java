@@ -18,7 +18,7 @@ public class BookDAOImpl extends GenericDAOImpl<Book, String> implements BookDAO
 	}
 
 	@Override
-	public List<Book> selectByCategory(Category category) {
+	public List<Book> selectByCategory(Category category) throws ExceptionDAO {
 		EntityManagerFactory emf = JPAHelper.getJPAFactory();
 		EntityManager manager = emf.createEntityManager();
 		TypedQuery<Book> query = manager.createQuery("Select b from Book b where b.category=?1", Book.class);

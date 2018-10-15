@@ -15,7 +15,7 @@
 		<description></description>
 		<display-name>BookController</display-name>
 		<servlet-name>BookController</servlet-name>
-		<servlet-class>com.balceda.archj.app.controller.BookController</servlet-class>
+		<servlet-class>com.balceda.archj.controller.BookController</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BookController</servlet-name>

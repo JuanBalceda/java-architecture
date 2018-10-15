@@ -3,23 +3,20 @@ package com.balceda.archj.controller.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.balceda.archj.dao.factory.DAOAbstractFactory;
-import com.balceda.archj.dao.factory.DAOFactory;
-import com.balceda.archj.dao.interfaces.BookDAO;
 import com.balceda.archj.model.Book;
+import com.balceda.archj.service.implementation.jpa.BookServiceImpl;
+import com.balceda.archj.service.interfaces.BookService;
 
 public class DeletebookAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		DAOFactory factory = DAOAbstractFactory.getInstance();
-		
-		BookDAO bookDAO = factory.getBookDAO();
+		BookService bookService = new BookServiceImpl();
 
 		String isbn = request.getParameter("isbn");
 		Book book = new Book();
 		book.setIsbn(isbn);
-		bookDAO.delete(book);
+		bookService.delete(book);
 
 		return "Showbooks.do";
 	}

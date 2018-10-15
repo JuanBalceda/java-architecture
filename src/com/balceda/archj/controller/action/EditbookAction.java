@@ -5,25 +5,23 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.balceda.archj.dao.factory.DAOAbstractFactory;
-import com.balceda.archj.dao.factory.DAOFactory;
-import com.balceda.archj.dao.interfaces.BookDAO;
-import com.balceda.archj.dao.interfaces.CategoryDAO;
 import com.balceda.archj.model.Book;
 import com.balceda.archj.model.Category;
+import com.balceda.archj.service.implementation.jpa.BookServiceImpl;
+import com.balceda.archj.service.implementation.jpa.CategoryServiceImpl;
+import com.balceda.archj.service.interfaces.BookService;
+import com.balceda.archj.service.interfaces.CategoryService;
 
 public class EditbookAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		DAOFactory factory = DAOAbstractFactory.getInstance();
-		
-		BookDAO bookDAO = factory.getBookDAO();
-		CategoryDAO categoryDAO = factory.getCategoryDAO();
+		BookService bookService = new BookServiceImpl();
+		CategoryService categoryService = new CategoryServiceImpl();
 
 		String isbn = request.getParameter("isbn");
-		List<Category> categories = categoryDAO.selectAll();
-		Book book = bookDAO.selectById(isbn);
+		List<Category> categories = categoryService.selectAll();
+		Book book = bookService.selectById(isbn);
 
 		request.setAttribute("categories", categories);
 		request.setAttribute("book", book);

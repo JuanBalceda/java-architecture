@@ -34,7 +34,7 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 			transaction.commit();
 		} catch (PersistenceException e) {
 			manager.getTransaction().rollback();
-			throw e;
+			throw new ExceptionDAO();
 		} finally {
 			manager.close();
 		}		
@@ -80,7 +80,7 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 			transaction.commit();
 		} catch (PersistenceException e) {
 			manager.getTransaction().rollback();
-			throw e;
+			throw new ExceptionDAO();
 		} finally {
 			manager.close();
 		}		
@@ -98,7 +98,7 @@ public class GenericDAOImpl<T,Id extends Serializable> implements GenericDAO<T, 
 			transaction.commit();
 		} catch (PersistenceException e) {
 			manager.getTransaction().rollback();
-			throw e;
+			throw new ExceptionDAO();
 		} finally {
 			manager.close();
 		}		

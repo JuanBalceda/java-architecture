@@ -5,30 +5,28 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.balceda.archj.dao.factory.DAOAbstractFactory;
-import com.balceda.archj.dao.factory.DAOFactory;
-import com.balceda.archj.dao.interfaces.BookDAO;
-import com.balceda.archj.dao.interfaces.CategoryDAO;
 import com.balceda.archj.model.Book;
 import com.balceda.archj.model.Category;
+import com.balceda.archj.service.implementation.jpa.BookServiceImpl;
+import com.balceda.archj.service.implementation.jpa.CategoryServiceImpl;
+import com.balceda.archj.service.interfaces.BookService;
+import com.balceda.archj.service.interfaces.CategoryService;
 
 public class FilterbycategoryAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		DAOFactory factory = DAOAbstractFactory.getInstance();
-		
-		BookDAO bookDAO = factory.getBookDAO();
-		CategoryDAO categoryDAO = factory.getCategoryDAO();
+		BookService bookService = new BookServiceImpl();
+		CategoryService categoryService = new CategoryServiceImpl();
 
 		List<Book> books = null;
-		List<Category> categories = categoryDAO.selectAll();
+		List<Category> categories = categoryService.selectAll();
 
 		if (request.getParameter("category") == null || request.getParameter("category").equals("0")) {
-			books = bookDAO.selectAll();
+			books = bookService.selectAll();
 		} else {
-			Category c = categoryDAO.selectById(request.getParameter("category"));
-			books = bookDAO.selectByCategory(c);
+			Category c = categoryService.selectById(request.getParameter("category"));
+			books = bookService.selectByCategory(c);
 		}
 		request.setAttribute("categories", categories);
 		request.setAttribute("books", books);

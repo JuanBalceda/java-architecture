@@ -5,20 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.balceda.archj.dao.factory.DAOAbstractFactory;
-import com.balceda.archj.dao.factory.DAOFactory;
-import com.balceda.archj.dao.interfaces.CategoryDAO;
 import com.balceda.archj.model.Category;
+import com.balceda.archj.service.implementation.jpa.CategoryServiceImpl;
+import com.balceda.archj.service.interfaces.CategoryService;
 
 public class NewbookAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		DAOFactory factory = DAOAbstractFactory.getInstance();
-		
-		CategoryDAO categoryDAO = factory.getCategoryDAO();
+		CategoryService categoryService = new CategoryServiceImpl();
 
-		List<Category> categories = categoryDAO.selectAll();
+		List<Category> categories = categoryService.selectAll();
 
 		request.setAttribute("categories", categories);
 		return "newbook.jsp";
