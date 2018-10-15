@@ -2,20 +2,20 @@ package com.balceda.archj.service.implementation.jpa;
 
 import java.util.List;
 
-import com.balceda.archj.dao.factory.DAOAbstractFactory;
-import com.balceda.archj.dao.factory.DAOFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.balceda.archj.dao.interfaces.CategoryDAO;
 import com.balceda.archj.model.Category;
 import com.balceda.archj.service.exception.ExceptionService;
 import com.balceda.archj.service.interfaces.CategoryService;
 
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
 	private CategoryDAO categoryDAO;
-	
-	public CategoryServiceImpl() {		
-		DAOFactory factory = DAOAbstractFactory.getInstance();
-		categoryDAO = factory.getCategoryDAO();
+
+	public CategoryServiceImpl() {
+		ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+		categoryDAO = (CategoryDAO) factory.getBean("categoryDAO");
 	}
 
 	@Override
