@@ -1,8 +1,9 @@
-package com.balceda.archj.service.implementation.jpa;
+package com.balceda.archj.service.implementation;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.balceda.archj.dao.interfaces.BookDAO;
 import com.balceda.archj.model.Book;
@@ -10,13 +11,15 @@ import com.balceda.archj.model.Category;
 import com.balceda.archj.service.exception.ExceptionService;
 import com.balceda.archj.service.interfaces.BookService;
 
+@Service(value = "bookService")
 public class BookServiceImpl implements BookService {
 
+	@Autowired
 	private BookDAO bookDAO;
 
 	public BookServiceImpl() {
 	}
-	
+
 	@Override
 	public void insert(Book t) throws ExceptionService {
 		bookDAO.insert(t);

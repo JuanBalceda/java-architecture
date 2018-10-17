@@ -15,7 +15,7 @@
 		<fieldset>
 			<legend>Edit book:</legend>
 			<p>
-				<label for="isbn">ISBN:</label><input id="isbn" type="text"
+				<label for="isbn">ISBN:</label><input id="isbn" type="number" maxlength="10"
 					name="isbn" value="${book.isbn}" />
 			</p>
 			<p>
