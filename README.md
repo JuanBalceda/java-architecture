@@ -16,3 +16,7 @@
 * Chapter 14 - IOC & Abstract Factory
 * Chapter 15 - DRY & Service
 * Chapter 16 - IOC & Spring Framework
+* Chapter 17 - DI & Spring Framework
+* Chapter 18 - DRY & Spring Template
+* Chapter 19 - Aspect Oriented Programing
+* Chapter 20 - Annotations & COC
