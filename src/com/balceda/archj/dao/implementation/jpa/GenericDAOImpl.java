@@ -5,10 +5,12 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.balceda.archj.dao.exception.ExceptionDAO;
 import com.balceda.archj.dao.interfaces.GenericDAO;
 
+@Transactional
 public class GenericDAOImpl<T, Id extends Serializable> extends JpaDaoSupport implements GenericDAO<T, Id> {
 
 	private Class<T> persistence;
@@ -32,12 +34,12 @@ public class GenericDAOImpl<T, Id extends Serializable> extends JpaDaoSupport im
 	public T selectById(Id id) throws ExceptionDAO {
 		return getJpaTemplate().find(persistence, id);
 	}
-
+	
 	@Override
 	public void update(T t) throws ExceptionDAO {
 		getJpaTemplate().merge(t);
 	}
-
+	
 	@Override
 	public void delete(T t) throws ExceptionDAO {
 		getJpaTemplate().remove(getJpaTemplate().merge(t));

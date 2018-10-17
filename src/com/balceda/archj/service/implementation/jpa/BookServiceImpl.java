@@ -2,6 +2,8 @@ package com.balceda.archj.service.implementation.jpa;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.balceda.archj.dao.interfaces.BookDAO;
 import com.balceda.archj.model.Book;
 import com.balceda.archj.model.Category;
@@ -14,7 +16,7 @@ public class BookServiceImpl implements BookService {
 
 	public BookServiceImpl() {
 	}
-
+	
 	@Override
 	public void insert(Book t) throws ExceptionService {
 		bookDAO.insert(t);
