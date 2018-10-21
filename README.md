@@ -22,3 +22,5 @@
 * Chapter 20 - Annotations & COC
 * Chapter 21 - Java Server Faces
 * Chapter 22 - Migration to Java Server Faces
+* Chapter 23 - Web Services & JAX-WS
+* Chapter 24 - Administration & Pools
