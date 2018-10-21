@@ -1,4 +1,4 @@
-package com.balceda.archj.dao.implementation.jpa;
+package com.balceda.archj.dao.implementation;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;

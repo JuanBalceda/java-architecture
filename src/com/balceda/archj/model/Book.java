@@ -28,6 +28,11 @@ public class Book {
 		this.category = category;
 	}
 
+	public Book(String isbn) {
+		super();
+		this.isbn = isbn;
+	}
+
 	public String getIsbn() {
 		return isbn;
 	}

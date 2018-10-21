@@ -28,7 +28,12 @@ public class Category {
 		this.id = id;
 		this.description = description;
 	}
-
+	
+	public Category(String id) {
+		super();
+		this.id = id;
+	}
+	
 	public String getId() {
 		return id;
 	}
