@@ -10,7 +10,7 @@ import com.balceda.archj.model.Category;
 import com.balceda.archj.service.exception.ExceptionService;
 import com.balceda.archj.service.interfaces.CategoryService;
 
-@Service(value = "categoryService")
+@Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired

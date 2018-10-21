@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>Java Architecture Book</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h:selectOneMenu id="combo" value="#{bookMB.category}"
+			valueChangeListener="#{bookMB.filter}" onchange="submit()">
+			<f:selectItem itemValue="0" itemLabel="Select a category" />
+			<f:selectItems value="#{bookMB.categories}" var="category" itemLabel="#{category.description}" itemValue="#{category.id}" />
+		</h:selectOneMenu>
+
+		<h:dataTable id="table" value="#{bookMB.books}" var="book">
+			<h:column>
+				<f:facet name="header">ISBN</f:facet>#{book.isbn}</h:column>
+			<h:column>
+				<f:facet name="header">Title</f:facet>#{book.title}</h:column>
+			<h:column>
+				<f:facet name="header">Category</f:facet>#{book.category.description}</h:column>
+			<h:column>
+				<h:commandLink value="Edit"
+					actionListener="#{bookMB.edit(book.isbn)}" action="editbook" />
+			</h:column>
+			<h:column>
+				<h:commandLink value="Delete"
+					actionListener="#{bookMB.delete(book.isbn)}" action="showbooks" />
+			</h:column>
+		</h:dataTable>
+		<h:commandButton actionListener="#{bookMB.newbook}" action="newbook"
+			value="Create new book" />
+	</h:form>
+</h:body>
+</html>

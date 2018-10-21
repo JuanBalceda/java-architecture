@@ -1,4 +1,4 @@
-package com.balceda.archj.dao.implementation.jpa;
+package com.balceda.archj.dao.implementation;
 
 import org.springframework.stereotype.Repository;
 

@@ -11,7 +11,7 @@ import com.balceda.archj.model.Category;
 import com.balceda.archj.service.exception.ExceptionService;
 import com.balceda.archj.service.interfaces.BookService;
 
-@Service(value = "bookService")
+@Service("bookService")
 public class BookServiceImpl implements BookService {
 
 	@Autowired

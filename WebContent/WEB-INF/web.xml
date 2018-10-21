@@ -3,29 +3,36 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
+	
 	<display-name>ArquitecturaJava</display-name>
+	
 	<error-page>
 		<exception-type>java.lang.RuntimeException</exception-type>
 		<location>/error.jsp</location>
 	</error-page>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
 	<servlet>
-		<description></description>
-		<display-name>BookController</display-name>
-		<servlet-name>BookController</servlet-name>
-		<servlet-class>com.balceda.archj.controller.BookController</servlet-class>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
 	<servlet-mapping>
-		<servlet-name>BookController</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:ApplicationContext.xml</param-value>
 	</context-param>
+	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
 </web-app>
